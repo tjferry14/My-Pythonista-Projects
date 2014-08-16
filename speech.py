@@ -9,9 +9,9 @@ textfield.clear_button_mode = 'while_editing'
 def button_action(sender):
     text = textfield.text
     if text == '':
-        speech.say('Please tell me something to say.', 'en-US', 0.1) # speaks out the text
+        speech.say('Please tell me something to say.', 'en-US', 0.1) 
     else:
-        speech.say(text, 'en-US', 0.1) # speaks out the text
+        speech.say(text, 'en-US', 0.1)
 
 button1 = v['button1']
 button1.action = button_action
