@@ -1,7 +1,6 @@
 import speech, ui
 
 lang = 'en-GB'
-speech.say('Greetings', lang, 0.1)
 
 def brit_switch_action(sender):
     global lang
@@ -12,7 +11,5 @@ def button_speak_action(sender):
     speech.say(text, lang, 0.1) 
 
 v = ui.load_view('speech')
-# the next two lines are now in the .pyui file instead
-#v['brit_switch'].action = brit_switch_action
-#v['button_speak'].action = button_speak_action
+speech.say('Greetings!', lang, 0.1)
 v.present('sheet')
