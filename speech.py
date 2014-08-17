@@ -12,7 +12,7 @@ def button_speak_action(sender):
     speech.say(text, lang, 0.1) 
 
 v = ui.load_view('speech')
-# I have put the next two lines in the .pyui file instead
+# the next two lines are now in the .pyui file instead
 #v['brit_switch'].action = brit_switch_action
 #v['button_speak'].action = button_speak_action
 v.present('sheet')
