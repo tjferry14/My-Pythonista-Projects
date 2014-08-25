@@ -13,11 +13,55 @@ def brit_switch_action(sender):
     global lang
     lang = 'en-GB' if sender.value else 'en-US'
     v['au_switch'].enabled = not sender.value
+    v['jap_switch'].enabled = not sender.value
+    v['itl_switch'].enabled = not sender.value
+    v['span_switch'].enabled = not sender.value
+    v['germany_switch'].enabled = not sender.value
 
 def aus_switch_action(sender):
     global lang
     lang = 'en-AU' if sender.value else 'en-US'
     v['brit_switch'].enabled = not sender.value
+    v['jap_switch'].enabled = not sender.value
+    v['itl_switch'].enabled = not sender.value
+    v['span_switch'].enabled = not sender.value
+    v['germany_switch'].enabled = not sender.value
+
+def jap_switch_action(sender):
+   global lang
+   lang = 'ja-JP' if sender.value else 'en-US'
+   v['brit_switch'].enabled = not sender.value
+   v['au_switch'].enabled = not sender.value
+   v['itl_switch'].enabled = not sender.value
+   v['span_switch'].enabled = not sender.value
+   v['germany_switch'].enabled = not sender.value
+			
+def itl_switch_action(sender):
+   global lang
+   lang = 'it-IT' if sender.value else 'en-US'
+   v['brit_switch'].enabled = not sender.value
+   v['jap_switch'].enabled = not sender.value
+   v['au_switch'].enabled = not sender.value
+   v['span_switch'].enabled = not sender.value
+   v['germany_switch'].enabled = not sender.value
+	
+def span_switch_action(sender):
+   global lang
+   lang = 'es-MX' if sender.value else 'en-US'
+   v['brit_switch'].enabled = not sender.value
+   v['jap_switch'].enabled = not sender.value
+   v['au_switch'].enabled = not sender.value
+   v['itl_switch'].enabled = not sender.value
+   v['germany_switch'].enabled = not sender.value
+
+def germany_switch_action(sender):
+   global lang
+   lang = 'de-DE' if sender.value else 'en-US'
+   v['brit_switch'].enabled = not sender.value
+   v['jap_switch'].enabled = not sender.value
+   v['au_switch'].enabled = not sender.value
+   v['itl_switch'].enabled = not sender.value
+   v['span_switch'].enabled = not sender.value
 
 def slider_action(sender):
     global speed
@@ -142,10 +186,19 @@ def record_action(sender):
         #server.serve_forever()
 
 v = ui.load_view('speech')
-v['au_switch'].enabled = v['au_switch'].value = False
+v['au_switch'].enabled = False
+v['jap_switch'].enabled = False
+v['itl_switch'].enabled = False
+v['span_switch'].enabled = False
+v['germany_switch'].enabled = False
 
-speech.say('Greetings!', lang, 0.1)
-v.present(style='full_screen', hide_title_bar=True)
+screensize = ui.get_screen_size()
+if screensize[0] < 768:
+    display = 'portrait'
+else:
+    speech.say('Greetings!', lang, 0.1)
+    display = 'landscape'
+v.present(orientations=[display], hide_title_bar=True )
 
 from BaseHTTPServer import HTTPServer
 ######
