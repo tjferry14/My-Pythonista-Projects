@@ -44,7 +44,7 @@ TEMPLATE = '''<!DOCTYPE html><html><head>' +
   '<h2>Upload File</h2>{{ALERT}}'
   '<p><form action="/" method="POST" enctype="multipart/form-data">' +
   '<div class="form-actions">' +
-  '<input type="file" name="file"></input><br/><br/>' +
+  '<input id="file" type="file" name="file"></input><br/><br/>' +
   '<button type="submit" class="btn btn-primary">Upload</button>' +
   '</div></form></p><hr/>' +
   '</div></body></html>'''
@@ -127,7 +127,7 @@ def record_action(sender):
                 ui.delay(loop,2)
             else:
                 sender.superview['webview1'].evaluate_javascript('document.getElementById("submit").click()')
-         loop()
+        loop()
         ######
         #console.clear()
         #from BaseHTTPServer import HTTPServer
