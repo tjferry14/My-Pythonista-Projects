@@ -65,7 +65,7 @@ class TransferRequestHandler(BaseHTTPRequestHandler):
         parsed_path = urlparse.urlparse(self.path)
         path = parsed_path.path
         if path == '/':
-			html = TEMPLATE.replace('{{ALERT}}', '')
+            html = TEMPLATE.replace('{{ALERT}}', '')
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
             self.end_headers()
