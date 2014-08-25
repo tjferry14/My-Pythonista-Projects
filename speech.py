@@ -12,18 +12,12 @@ speed = 0.1
 def brit_switch_action(sender):
     global lang
     lang = 'en-GB' if sender.value else 'en-US'
-    if sender.value:
-        v['au_switch'].enabled = False
-    else:
-        v['au_switch'].enabled = True
+    v['au_switch'].enabled = not sender.value
 
 def aus_switch_action(sender):
     global lang
     lang = 'en-AU' if sender.value else 'en-US'
-    if sender.value:
-        v['brit_switch'].enabled = False
-    else:
-        v['brit_switch'].enabled = True
+    v['brit_switch'].enabled = not sender.value
 
 def slider_action(sender):
     global speed
@@ -33,21 +27,30 @@ def button_speak_action(sender):
     global speed
     text = v['user_text'].text
     if text == 'Enter your text here':
-        speech.say('Please tell me something to say.', lang, speed)
-    else:
-        speech.say(text, lang, speed)
+        text = 'Please tell me something to say.'
+    speech.say(text, lang, speed)
 
-TEMPLATE = '''<!DOCTYPE html><html><head>' +
-  '<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/'+
-  'css/bootstrap-combined.min.css" rel="stylesheet"></head><body>' +
-  '<div class="container">' +
-  '<h2>Upload File</h2>{{ALERT}}'
-  '<p><form action="/" method="POST" enctype="multipart/form-data">' +
-  '<div class="form-actions">' +
-  '<input id="file" type="file" name="file"></input><br/><br/>' +
-  '<button type="submit" class="btn btn-primary">Upload</button>' +
-  '</div></form></p><hr/>' +
-  '</div></body></html>'''
+TEMPLATE = '''<!DOCTYPE html>
+<html>
+  <head>
+     <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <h2>Upload File</h2>
+      {{ALERT}}
+      <p>
+      <form action="/" method="POST" enctype="multipart/form-data">
+        <div class="form-actions">
+          <input type="file" name="file"></input><br/><br/>
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+      </form>
+      </p>
+      <hr/>
+    </div>
+  </body>
+</html>'''
 
 class TransferRequestHandler(BaseHTTPRequestHandler):
     def get_unused_filename(self, filename):
@@ -127,7 +130,7 @@ def record_action(sender):
                 ui.delay(loop,2)
             else:
                 sender.superview['webview1'].evaluate_javascript('document.getElementById("submit").click()')
-        loop()
+         loop()
         ######
         #console.clear()
         #from BaseHTTPServer import HTTPServer
@@ -139,8 +142,7 @@ def record_action(sender):
         #server.serve_forever()
 
 v = ui.load_view('speech')
-v['au_switch'].enabled = False
-v['au_switch'].value = False
+v['au_switch'].enabled = v['au_switch'].value = False
 
 speech.say('Greetings!', lang, 0.1)
 v.present(style='full_screen', hide_title_bar=True)
