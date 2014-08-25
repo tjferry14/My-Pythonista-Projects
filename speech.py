@@ -47,7 +47,7 @@ TEMPLATE = '''<!DOCTYPE html><html><head>
     <h2>Upload File</h2>{{ALERT}}
     <p><form action="/" method="POST" enctype="multipart/form-data">
     <div class="form-actions">
-    <input type="file" name="file"></input><br/><br/>
+    <input id="file" type="file" name="file"></input><br/><br/>
     <button type="submit" class="btn btn-primary">Upload</button>
     </div></form></p><hr/>
     </div></body></html>'''
