@@ -40,17 +40,17 @@ def button_speak_action(sender):
 	else:
 		speech.say(text, lang, speed)
  
-TEMPLATE = ('<!DOCTYPE html><html><head>' +
-  '<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/'+
-  'css/bootstrap-combined.min.css" rel="stylesheet"></head><body>' +
-  '<div class="container">' +
-  '<h2>Upload File</h2>{{ALERT}}'
-  '<p><form action="/" method="POST" enctype="multipart/form-data">' +
-  '<div class="form-actions">' +
-  '<input type="file" name="file"></input><br/><br/>' +
-  '<button type="submit" class="btn btn-primary">Upload</button>' +
-  '</div></form></p><hr/>' +
-  '</div></body></html>')
+TEMPLATE = '''<!DOCTYPE html><html><head>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/css/bootstrap-combined.min.css"
+    rel="stylesheet"></head><body>
+    <div class="container">
+    <h2>Upload File</h2>{{ALERT}}
+    <p><form action="/" method="POST" enctype="multipart/form-data">
+    <div class="form-actions">
+    <input type="file" name="file"></input><br/><br/>
+    <button type="submit" class="btn btn-primary">Upload</button>
+    </div></form></p><hr/>
+    </div></body></html>'''
  
 class TransferRequestHandler(BaseHTTPRequestHandler):
 	def get_unused_filename(self, filename):
@@ -68,8 +68,7 @@ class TransferRequestHandler(BaseHTTPRequestHandler):
 		parsed_path = urlparse.urlparse(self.path)
 		path = parsed_path.path
 		if path == '/':
-			html = TEMPLATE
-			html = html.replace('{{ALERT}}', '')
+			html = TEMPLATE.replace('{{ALERT}}', '')
 			self.send_response(200)
 			self.send_header('Content-Type', 'text/html')
 			self.end_headers()
