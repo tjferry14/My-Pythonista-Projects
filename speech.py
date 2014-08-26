@@ -140,10 +140,10 @@ class TransferRequestHandler(BaseHTTPRequestHandler):
 def record_action(sender):
         ######
         #sender.superview['webview'].hidden = False
-    sender.superview['webview'].evaluate_javascript('document.getElementById("file").click()')
+    sender.superview.eval_js('document.getElementById("file").click()')
     def loop():
-        if sender.superview['webview'].evaluate_javascript('document.forms["form"]["file"].value'):
-            sender.superview['webview'].evaluate_javascript('document.getElementById("submit").click()')
+        if sender.superview.eval_js('document.forms["form"]["file"].value'):
+            sender.superview.eval_js('document.getElementById("submit").click()')
         else:
             sound.play_effect('Beep')
             ui.delay(loop,2)
