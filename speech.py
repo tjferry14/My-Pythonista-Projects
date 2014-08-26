@@ -57,17 +57,17 @@ TEMPLATE = '''<!DOCTYPE html>
       <h2>Upload File</h2>
       {{ALERT}}
       <p>
-      <form action="/" method="POST" enctype="multipart/form-data">
+      <form id="form" action="/" method="POST" enctype="multipart/form-data">
         <div class="form-actions">
           <input id="file" type="file" name="file"></input><br/><br/>
-          <button type="submit" class="btn btn-primary">Upload</button>
+          <button id="submit" type="submit" class="btn btn-primary">Upload</button>
         </div>
       </form>
       </p>
       <hr/>
     </div>
   </body>
-</html>'''
+</html>'''j
 
 class TransferRequestHandler(BaseHTTPRequestHandler):
     def get_unused_filename(self, filename):
