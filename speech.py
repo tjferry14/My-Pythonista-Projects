@@ -1,67 +1,52 @@
-import speech, ui, sound
 from BaseHTTPServer import BaseHTTPRequestHandler
-import urlparse, urllib
-import cgi, editor, console
-from socket import gethostname
-import os, webbrowser
 from cStringIO import StringIO
+import cgi, console, editor, os, sound, speech, ui, urllib, urlparse, webbrowser
 
-lang = 'en-GB'
+switch_names = [x + '_switch' for x in 'au brit germany itl jap span'.split()]
+lang  = 'en-GB'
 speed = 0.1
 
 def brit_switch_action(sender):
     global lang
     lang = 'en-GB' if sender.value else 'en-US'
-    v['au_switch'].enabled = not sender.value
-    v['jap_switch'].enabled = not sender.value
-    v['itl_switch'].enabled = not sender.value
-    v['span_switch'].enabled = not sender.value
-    v['germany_switch'].enabled = not sender.value
+    for switch_name in switch_names:
+        if switch_name != sender.name:
+            v[switch_name].enabled = not sender.value
 
 def aus_switch_action(sender):
     global lang
     lang = 'en-AU' if sender.value else 'en-US'
-    v['brit_switch'].enabled = not sender.value
-    v['jap_switch'].enabled = not sender.value
-    v['itl_switch'].enabled = not sender.value
-    v['span_switch'].enabled = not sender.value
-    v['germany_switch'].enabled = not sender.value
+    for switch_name in switch_names:
+        if switch_name != sender.name:
+            v[switch_name].enabled = not sender.value
 
 def jap_switch_action(sender):
-   global lang
-   lang = 'ja-JP' if sender.value else 'en-US'
-   v['brit_switch'].enabled = not sender.value
-   v['au_switch'].enabled = not sender.value
-   v['itl_switch'].enabled = not sender.value
-   v['span_switch'].enabled = not sender.value
-   v['germany_switch'].enabled = not sender.value
-			
+    global lang
+    lang = 'ja-JP' if sender.value else 'en-US'
+    for switch_name in switch_names:
+        if switch_name != sender.name:
+            v[switch_name].enabled = not sender.value
+
 def itl_switch_action(sender):
-   global lang
-   lang = 'it-IT' if sender.value else 'en-US'
-   v['brit_switch'].enabled = not sender.value
-   v['jap_switch'].enabled = not sender.value
-   v['au_switch'].enabled = not sender.value
-   v['span_switch'].enabled = not sender.value
-   v['germany_switch'].enabled = not sender.value
-	
+    global lang
+    lang = 'it-IT' if sender.value else 'en-US'
+    for switch_name in switch_names:
+        if switch_name != sender.name:
+            v[switch_name].enabled = not sender.value
+
 def span_switch_action(sender):
-   global lang
-   lang = 'es-MX' if sender.value else 'en-US'
-   v['brit_switch'].enabled = not sender.value
-   v['jap_switch'].enabled = not sender.value
-   v['au_switch'].enabled = not sender.value
-   v['itl_switch'].enabled = not sender.value
-   v['germany_switch'].enabled = not sender.value
+    global lang
+    lang = 'es-MX' if sender.value else 'en-US'
+    for switch_name in switch_names:
+        if switch_name != sender.name:
+            v[switch_name].enabled = not sender.value
 
 def germany_switch_action(sender):
-   global lang
-   lang = 'de-DE' if sender.value else 'en-US'
-   v['brit_switch'].enabled = not sender.value
-   v['jap_switch'].enabled = not sender.value
-   v['au_switch'].enabled = not sender.value
-   v['itl_switch'].enabled = not sender.value
-   v['span_switch'].enabled = not sender.value
+    global lang
+    lang = 'de-DE' if sender.value else 'en-US'
+    for switch_name in switch_names:
+        if switch_name != sender.name:
+            v[switch_name].enabled = not sender.value
 
 def slider_action(sender):
     global speed
@@ -161,43 +146,40 @@ class TransferRequestHandler(BaseHTTPRequestHandler):
 
     ######
     def log_message(self, format, *args):
-        pass 
+        pass
     ######
 
 def record_action(sender):
         ######
         #sender.superview['webview1'].hidden = False
-        sender.superview['webview1'].evaluate_javascript('document.getElementById("file").click()')
-        def loop():
-            if sender.superview['webview1'].evaluate_javascript('document.forms["form"]["file"].value') == '':
-                sound.play_effect('Beep')
-                ui.delay(loop,2)
-            else:
-                sender.superview['webview1'].evaluate_javascript('document.getElementById("submit").click()')
-        loop()
-        ######
-        #console.clear()
-        #from BaseHTTPServer import HTTPServer
-        #server = HTTPServer(('', 8080), TransferRequestHandler)
-        #URL = 'http://localhost:8080' 
-        #webbrowser.open('http://localhost:8080', stop_when_done = True)
-        #webview = v['webview1']
-        #webview.load_url('http://localhost:8080')
-        #server.serve_forever()
+    sender.superview['webview1'].evaluate_javascript('document.getElementById("file").click()')
+    def loop():
+        if sender.superview['webview1'].evaluate_javascript('document.forms["form"]["file"].value'):
+            sender.superview['webview1'].evaluate_javascript('document.getElementById("submit").click()')
+        else:
+            sound.play_effect('Beep')
+            ui.delay(loop,2)
+    loop()
+    ######
+    #console.clear()
+    #from BaseHTTPServer import HTTPServer
+    #server = HTTPServer(('', 8080), TransferRequestHandler)
+    #URL = 'http://localhost:8080'
+    #webbrowser.open('http://localhost:8080', stop_when_done = True)
+    #webview = v['webview1']
+    #webview.load_url('http://localhost:8080')
+    #server.serve_forever()
 
 v = ui.load_view('speech')
-v['au_switch'].enabled = False
-v['jap_switch'].enabled = False
-v['itl_switch'].enabled = False
-v['span_switch'].enabled = False
-v['germany_switch'].enabled = False
+for switch_name in switch_names:
+    v[switch_name].enabled = switch_name == 'brit_switch'
 
-screensize = ui.get_screen_size()
-if screensize[0] < 768:
-    display = 'portrait'
-else:
+on_an_iPad = ui.get_screen_size()[0] > 767
+if on_an_iPad:
     speech.say('Greetings!', lang, 0.1)
     display = 'landscape'
+else:
+    display = 'portrait'
 v.present(orientations=[display], hide_title_bar=True )
 
 from BaseHTTPServer import HTTPServer
