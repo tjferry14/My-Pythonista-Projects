@@ -2,62 +2,50 @@ from BaseHTTPServer import BaseHTTPRequestHandler
 from cStringIO import StringIO
 import cgi, console, editor, os, sound, speech, ui, urllib, urlparse, webbrowser
 
-switch_names = [x + '_switch' for x in 'au brit germany itl jap span'.split()]
-lang  = 'en-GB'
-speed = 0.1
+class SpeechView(ui.View):
+    def __init__(self):
+        self.lang  = 'en-GB'
+        self.speed = 0.1
+        on_an_iPad = ui.get_screen_size()[0] > 767
+        self.present(orientations=['landscape' if on_an_iPad else 'portrait'], hide_title_bar=True)
 
-def brit_switch_action(sender):
-    global lang
-    lang = 'en-GB' if sender.value else 'en-US'
-    for switch_name in switch_names:
-        if switch_name != sender.name:
-            v[switch_name].enabled = not sender.value
+    def did_load(self):
+        self.say('Greetings!')
+        for subview in self.subviews:
+            if isinstance(subview, ui.Switch):
+                subview.action = self.switch_action
+            elif isinstance(subview, ui.Slider):
+                subview.action = self.slider_action
+            elif isinstance(subview, ui.Button):
+                if subview.name == 'button_speak':
+                    subview.action = self.button_speak_action
+                else:
+                    subview.action = self.button_record_action
 
-def aus_switch_action(sender):
-    global lang
-    lang = 'en-AU' if sender.value else 'en-US'
-    for switch_name in switch_names:
-        if switch_name != sender.name:
-            v[switch_name].enabled = not sender.value
+    def say(self, msg):
+        speech.say(msg, self.lang, self.speed)
 
-def jap_switch_action(sender):
-    global lang
-    lang = 'ja-JP' if sender.value else 'en-US'
-    for switch_name in switch_names:
-        if switch_name != sender.name:
-            v[switch_name].enabled = not sender.value
+    def eval_js(self, command):
+        self['webview'].eval_js(command)
 
-def itl_switch_action(sender):
-    global lang
-    lang = 'it-IT' if sender.value else 'en-US'
-    for switch_name in switch_names:
-        if switch_name != sender.name:
-            v[switch_name].enabled = not sender.value
+    def switch_action(self, sender):
+        self.lang = sender.name if sender.value else 'en-US'
+        for subview in self.subviews:
+            if isinstance(subview, ui.Switch):
+                if subview != sender:
+                    subview.value = False
 
-def span_switch_action(sender):
-    global lang
-    lang = 'es-MX' if sender.value else 'en-US'
-    for switch_name in switch_names:
-        if switch_name != sender.name:
-            v[switch_name].enabled = not sender.value
+    def slider_action(self, sender):
+        self.speed = sender.value
 
-def germany_switch_action(sender):
-    global lang
-    lang = 'de-DE' if sender.value else 'en-US'
-    for switch_name in switch_names:
-        if switch_name != sender.name:
-            v[switch_name].enabled = not sender.value
+    def button_speak_action(self, sender):
+        text = self['user_text'].text
+        if text == 'Enter your text here':
+            text = 'Please tell me something to say.'
+        self.say(text)
 
-def slider_action(sender):
-    global speed
-    speed = v['slider1'].value
-
-def button_speak_action(sender):
-    global speed
-    text = v['user_text'].text
-    if text == 'Enter your text here':
-        text = 'Please tell me something to say.'
-    speech.say(text, lang, speed)
+    def button_record_action(self, sender):
+        record_action(sender)
 
 TEMPLATE = '''<!DOCTYPE html>
 <html>
@@ -151,11 +139,11 @@ class TransferRequestHandler(BaseHTTPRequestHandler):
 
 def record_action(sender):
         ######
-        #sender.superview['webview1'].hidden = False
-    sender.superview['webview1'].evaluate_javascript('document.getElementById("file").click()')
+        #sender.superview['webview'].hidden = False
+    sender.superview.eval_js('document.getElementById("file").click()')
     def loop():
-        if sender.superview['webview1'].evaluate_javascript('document.forms["form"]["file"].value'):
-            sender.superview['webview1'].evaluate_javascript('document.getElementById("submit").click()')
+        if sender.superview.eval_js('document.forms["form"]["file"].value'):
+            sender.superview.eval_js('document.getElementById("submit").click()')
         else:
             sound.play_effect('Beep')
             ui.delay(loop,2)
@@ -166,21 +154,11 @@ def record_action(sender):
     #server = HTTPServer(('', 8080), TransferRequestHandler)
     #URL = 'http://localhost:8080'
     #webbrowser.open('http://localhost:8080', stop_when_done = True)
-    #webview = v['webview1']
+    #webview = v['webview']
     #webview.load_url('http://localhost:8080')
     #server.serve_forever()
 
 v = ui.load_view('speech')
-for switch_name in switch_names:
-    v[switch_name].enabled = switch_name == 'brit_switch'
-
-on_an_iPad = ui.get_screen_size()[0] > 767
-if on_an_iPad:
-    speech.say('Greetings!', lang, 0.1)
-    display = 'landscape'
-else:
-    display = 'portrait'
-v.present(orientations=[display], hide_title_bar=True )
 
 from BaseHTTPServer import HTTPServer
 ######
@@ -189,7 +167,7 @@ def f():
     pass
 gport = server.server_address[1]
 ui.delay(f,0)
-webview = v['webview1']
+webview = v['webview']
 webview.hidden = True
 webview.load_url('http://localhost:'  + str(gport))
 server.serve_forever()
