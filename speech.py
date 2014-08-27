@@ -67,7 +67,7 @@ TEMPLATE = '''<!DOCTYPE html>
       <hr/>
     </div>
   </body>
-</html>'''j
+</html>'''
 
 class TransferRequestHandler(BaseHTTPRequestHandler):
     def get_unused_filename(self, filename):
