@@ -1,4 +1,4 @@
-Fun Pythonista Tools
+Fun Pythonista Projects
 ====================
 
 ### speech.py
