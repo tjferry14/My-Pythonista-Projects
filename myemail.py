@@ -26,6 +26,9 @@ def main():
 	smtpserver.sendmail(email_user, sendto, msg)
 	sent_time = time.strftime("%A, %B %d, %Y at %I:%M:%S %p.", time.localtime())
 	console.hud_alert('Your message has been sent successfully on ' + sent_time, 'success', 2.1)
+	v['tofield'].text = ''
+	v['subjectfield'].text = ''
+	v['message'].text = ''
 
 v = ui.load_view('myemail')
 fromfield = v['fromfield']
