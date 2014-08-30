@@ -21,8 +21,7 @@ class CaptureMedia(ui.View):
         function f(){
             if (document.forms["form"]["file"].value == '') {
             setTimeout(function(){f()}, 500);
-            } else
-            {
+            } else {
                 document.getElementById("submit").click();
             }
         }
