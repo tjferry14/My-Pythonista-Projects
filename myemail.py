@@ -31,6 +31,12 @@ def main():
 	v['message'].text = ''
 
 v = ui.load_view('myemail')
+
+send = ui.ButtonItem()
+send.title = 'Send'
+send.action = send_action
+v.right_button_items = [send]
+
 fromfield = v['fromfield']
 fromfield.text = email_user
 fromfield.scroll_enabled = False
