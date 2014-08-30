@@ -11,3 +11,7 @@ A simple script using UI that records media from your iPad.
 Created by @tony on the Pythonista Forums.
 
 **Note: Running this on the iOS 8 beta crashes Pythonista.**
+
+### myemail.py
+
+A basic script using UI that sends an email using your email account.
