@@ -7,6 +7,7 @@ class CaptureMedia(ui.View):
         self._wv = ui.WebView()
         self._wv.hidden = True
         self.add_subview(self._wv)
+        self.layout()  # subclasses can override
         self.present('popover')
         global gCaptureMedia
         gCaptureMedia = self
@@ -15,13 +16,17 @@ class CaptureMedia(ui.View):
         ui.delay(self._start, 0.5)
         self.httpsrvr.serve_forever()
 
+    def layout():
+        pass  # subclasses can override
+    
     def _start(self):
         self._wv.evaluate_javascript('''
         document.getElementById("file").click();
         function f(){
             if (document.forms["form"]["file"].value == '') {
             setTimeout(function(){f()}, 500);
-            } else {
+            } else
+            {
                 document.getElementById("submit").click();
             }
         }
@@ -72,5 +77,20 @@ class TransferRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         ui.delay(gCaptureMedia.close, 0)
         ui.delay(self.server.shutdown, 0)
 
+    def log_message(self, format, *args):
+        pass
+
+class MyCaptureMedia(CaptureMedia):
+    def layout(self):
+        self.name = 'My Capture Media'
+        self.height = 200
+        self.background_color = 'Lime'
+        image = ui.Image.named('ionicons-close-24')
+        self.left_button_items = [ui.ButtonItem(image=image, action=lambda sender: self.close())]
+        self.lHelp = ui.Label(frame=(30, 10, 180, 30))
+        self.lHelp.text = 'Please choose media...'
+        self.add_subview(self.lHelp)
+
 if __name__ == "__main__":
-    CaptureMedia()
+    #CaptureMedia()
+    MyCaptureMedia()
