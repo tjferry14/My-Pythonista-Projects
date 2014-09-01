@@ -15,3 +15,7 @@ Created by @tony on the Pythonista Forums.
 ### myemail.py
 
 A basic script using UI that sends an email using your email account.
+
+### scores.py
+
+A basic script using UI that generates two random scores.
