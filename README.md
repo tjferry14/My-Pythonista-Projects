@@ -21,3 +21,7 @@ A basic script using UI that sends an email using your email account.
 ### scores.py
 
 A basic script using UI that generates two random scores.
+
+### tweetme.py
+
+A simple script using UI that allows you to tweet whatever you type into it.
