@@ -123,7 +123,7 @@ class TransferRequestHandler(BaseHTTPRequestHandler):
 #    '<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/'+
 #    'css/bootstrap-combined.min.css" rel="stylesheet"></head><body>' +
 #    '<div class="container">' +
-#    '<h2>Upload File</h2>{{ALERT}}'
+#    '<h2>Upload File</h2>'
     '<form id="form" action="/" method="POST" enctype="multipart/form-data">' +
 #    '<div class="form-actions">' +
     '<input id="file" type="file" name="file"></input>' +
@@ -160,14 +160,12 @@ class TransferRequestHandler(BaseHTTPRequestHandler):
         uploaded_filename = None
         dest_filename = None
         file_data = field_item.file.read()
-#        file_len = len(file_data)
         uploaded_filename = field_item.filename     
         dest_filename = self.get_unused_filename(uploaded_filename)
         with open(dest_filename, 'w') as f:
             f.write(file_data)
         editor.reload_files()
         del file_data
-#        html = TEMPLATE
         if uploaded_filename != dest_filename:
             message = '%s uploaded (renamed to %s).' % (uploaded_filename,
                                                        dest_filename)
