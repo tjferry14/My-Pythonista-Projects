@@ -1,11 +1,24 @@
-import cgi, console, editor, os, platform, ui, urlparse, urllib
+'''
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>BaseValues</key>
+    <string>7.1.2 iPad 2.7.5 2.1 Original</string>
+    <key>WarnedValues</key>
+    <string></string>
+</dict>
+</plist>
+'''
+
+import ui, console, editor, urlparse, urllib, cgi, os, platform, plistlib
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 
 class CaptureMedia(ui.View):
     def __init__(self):
         console.hide_output()
         self._make_self()
-        self._do_warnings('7.1.2', 'iPad', '2.7.5', '2.0', 'Original')
+        self._do_warnings()
         self._make_wv()
         self._make_bi()
         self.did_load()
@@ -39,24 +52,32 @@ class CaptureMedia(ui.View):
     def _make_self(self):
         global gcm
         gcm = self
-        self.version = '2.0'
+        self.version = '2.1'
         self.source = 'Original posted on Pythonista forum'
         self.name = 'Capture'
         self.message = None
-        self.file_name = None 
+        self.file_name = None
         self.https = HTTPServer(('', 0), TransferRequestHandler)
 
-    def _do_warnings(self, vO, vD, vP, vV, vS):
-        if platform.mac_ver()[0] != vO:
-            console.hud_alert('Warning: only tested on iOS ' + vO)
-        if platform.mac_ver()[2][0:4] != vD:
-            console.hud_alert('Warning: only tested on ' + vD)
-        if platform.python_version() != vP:
-            console.hud_alert('Warning: only tested on Python ' + vP)
-        if self.version != vV:
-            console.hud_alert('Warning: update to version ' + vV)
-        if self.source[0:8] != vS:
-            console.hud_alert('Warning: not original source')
+    def _do_warnings(self):
+        s = Settings().open_settings()
+        lB = s.get_setting('BaseValues')['value'].split()
+        lW = s.get_setting('WarnedValues')['value'].split()
+        sN = platform.mac_ver()[0] + ' ' + platform.mac_ver()[2][0:4] + ' ' + platform.python_version() + ' ' + self.version + ' ' + self.source[0:8]
+        lN = sN.split()
+        if lN != lW:
+            if platform.mac_ver()[0] != lB[0]:
+                console.hud_alert('Warning: only tested on iOS ' + lB[0])
+            if platform.mac_ver()[2][0:4] != lB[1]:
+                console.hud_alert('Warning: only tested on ' + lB[1])
+            if platform.python_version() != lB[2]:
+                console.hud_alert('Warning: only tested on Python ' + lB[2])
+            if self.version != lB[3]:
+                console.hud_alert('Warning: update to version ' + lB[3])
+            if self.source[0:8] != lB[4]:
+                console.hud_alert('Warning: not original source')
+            s.set_setting('WarnedValues', sN)
+            s.close_settings()
 
     def _make_wv(self):
         self._wv = ui.WebView()
@@ -72,20 +93,46 @@ class CaptureMedia(ui.View):
         self.will_close()
         super(CaptureMedia, self).close()
 
+class Settings (object):
+    def open_settings(self):
+        self.version = '1.0'
+        self.source = 'Original posted on Pythonista forum'
+        self._f = os.path.split(__file__)[1]
+        with open(self._f, 'r') as fS:
+            self._sA = fS.read()
+        self._iS = self._sA.find('<?xml')
+        self._iF = self._sA.find('</plist>') + 8
+        self.plSettings = plistlib.readPlistFromString(self._sA[self._iS:self._iF])
+        return self
+
+    def get_setting(self, sK):
+        return {'setting': sK , 'value': self.plSettings[sK]}
+
+    def set_setting(self, sK, sV):
+        self.plSettings[sK] = sV
+
+    def close_settings(self):
+        sPl = plistlib.writePlistToString(self.plSettings)
+        sN = self._sA[0:self._iS] + sPl[:-1] + self._sA[self._iF:-1]
+        with open(self._f, 'w') as fS:
+            fS.write(sN)
+        if os.path.split(editor.get_path())[1] == self._f:
+            editor.replace_text(0, len(editor.get_text()), sN)
 
 class TransferRequestHandler(BaseHTTPRequestHandler):
     '''--------from OMZ's File Transfer script--------'''
-#    global TEMPLATE
-    HTML = ('<!DOCTYPE html><html><head></head><body>' +
-#    '<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/'+
-#    'css/bootstrap-combined.min.css" rel="stylesheet"></head><body>' +
-#    '<div class="container">' +
-#    '<h2>Upload File</h2>{{ALERT}}'
-    '<form id="form" action="/" method="POST" enctype="multipart/form-data">' +
-#    '<div class="form-actions">' +
-    '<input id="file" type="file" name="file"></input>' +
+    global TEMPLATE
+    TEMPLATE = ('<!DOCTYPE html><html><head>' +
+    '<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/'+
+    'css/bootstrap-combined.min.css" rel="stylesheet"></head><body>' +
+    '<div class="container">' +
+    '<h2>Upload File</h2>{{ALERT}}'
+    '<p><form id="form" action="/" method="POST" enctype="multipart/form-data">' +
+    '<div class="form-actions">' +
+    '<input id="file" type="file" name="file"></input><br/><br/>' +
     '<button id="submit" type="submit" class="btn btn-primary">Upload</button>' +
-    '</form></body></html>')
+    '</div></form></p><hr/>' +
+    '</div></body></html>')
 
     def get_unused_filename(self, filename):
         if not os.path.exists(filename):
@@ -99,31 +146,31 @@ class TransferRequestHandler(BaseHTTPRequestHandler):
             suffix_n += 1
 
     def do_GET(self):
-#        parsed_path = urlparse.urlparse(self.path)
-#        path = parsed_path.path
-#        if path == '/':
-#            html = TEMPLATE
-#            html = html.replace('{{ALERT}}', '')
+        parsed_path = urlparse.urlparse(self.path)
+        path = parsed_path.path
+        if path == '/':
+            html = TEMPLATE
+            html = html.replace('{{ALERT}}', '')
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
             self.end_headers()
-            self.wfile.write(HTML)
-#            return
-#        file_path = urllib.unquote(path)[1:]
-#        if os.path.isfile(file_path):
-#            self.send_response(200)
-#            self.send_header('Content-Type', 'application/x-python')
-#            self.send_header('Content-Disposition',
-#                             'attachment; filename=%s' % file_path)
-#            self.end_headers()
-#            with open(file_path, 'r') as f:
-#                data = f.read()
-#                self.wfile.write(data)
-#        else:
-#            self.send_response(404)
-#            self.send_header('Content-Type', 'text/html')
-#            self.end_headers()
-#            self.wfile.write(html)
+            self.wfile.write(html)
+            return
+        file_path = urllib.unquote(path)[1:]
+        if os.path.isfile(file_path):
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/x-python')
+            self.send_header('Content-Disposition',
+                             'attachment; filename=%s' % file_path)
+            self.end_headers()
+            with open(file_path, 'r') as f:
+                data = f.read()
+                self.wfile.write(data)
+        else:
+            self.send_response(404)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            self.wfile.write(html)
 
     def do_POST(self):
         form = cgi.FieldStorage(fp=self.rfile, headers=self.headers,
@@ -160,7 +207,7 @@ class TransferRequestHandler(BaseHTTPRequestHandler):
 class MyCaptureMedia (CaptureMedia):
     def did_load(self):
         self.name = 'My Capture Media'
-        self.lHelp = ui.Label(frame=(30, 10, 180, 30))
+        self.lHelp = ui.Label()
         self.lHelp.text = 'Please choose media...'
         self.add_subview(self.lHelp)
         super(MyCaptureMedia, self).did_load()
@@ -168,10 +215,10 @@ class MyCaptureMedia (CaptureMedia):
     def layout(self):
         self.width = 320
         self.height = 200
-#        self.lHelp.x = 30
-#        self.lHelp.y = 10
-#        self.lHelp.width = 180
-#        self.lHelp.height = 30
+        self.lHelp.x = 30
+        self.lHelp.y = 10
+        self.lHelp.width = 180
+        self.lHelp.height = 30
 
 if __name__ == "__main__":
     mcm = MyCaptureMedia()
