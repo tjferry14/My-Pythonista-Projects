@@ -1,4 +1,4 @@
-import ui, console, editor, urlparse, urllib, cgi, os, platform
+import cgi, console, editor, os, platform, ui, urlparse, urllib
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 
 class CaptureMedia(ui.View):
@@ -75,18 +75,17 @@ class CaptureMedia(ui.View):
 
 class TransferRequestHandler(BaseHTTPRequestHandler):
     '''--------from OMZ's File Transfer script--------'''
-    global TEMPLATE
-    TEMPLATE = ('<!DOCTYPE html><html><head>' +
-    '<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/'+
-    'css/bootstrap-combined.min.css" rel="stylesheet"></head><body>' +
-    '<div class="container">' +
-    '<h2>Upload File</h2>{{ALERT}}'
-    '<p><form id="form" action="/" method="POST" enctype="multipart/form-data">' +
-    '<div class="form-actions">' +
-    '<input id="file" type="file" name="file"></input><br/><br/>' +
+#    global TEMPLATE
+    HTML = ('<!DOCTYPE html><html><head></head><body>' +
+#    '<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/'+
+#    'css/bootstrap-combined.min.css" rel="stylesheet"></head><body>' +
+#    '<div class="container">' +
+#    '<h2>Upload File</h2>{{ALERT}}'
+    '<form id="form" action="/" method="POST" enctype="multipart/form-data">' +
+#    '<div class="form-actions">' +
+    '<input id="file" type="file" name="file"></input>' +
     '<button id="submit" type="submit" class="btn btn-primary">Upload</button>' +
-    '</div></form></p><hr/>' +
-    '</div></body></html>')
+    '</form></body></html>')
 
     def get_unused_filename(self, filename):
         if not os.path.exists(filename):
@@ -100,31 +99,31 @@ class TransferRequestHandler(BaseHTTPRequestHandler):
             suffix_n += 1
 
     def do_GET(self):
-        parsed_path = urlparse.urlparse(self.path)
-        path = parsed_path.path
-        if path == '/':
-            html = TEMPLATE
-            html = html.replace('{{ALERT}}', '')
+#        parsed_path = urlparse.urlparse(self.path)
+#        path = parsed_path.path
+#        if path == '/':
+#            html = TEMPLATE
+#            html = html.replace('{{ALERT}}', '')
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
             self.end_headers()
-            self.wfile.write(html)
-            return
-        file_path = urllib.unquote(path)[1:]
-        if os.path.isfile(file_path):
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/x-python')
-            self.send_header('Content-Disposition',
-                             'attachment; filename=%s' % file_path)
-            self.end_headers()
-            with open(file_path, 'r') as f:
-                data = f.read()
-                self.wfile.write(data)
-        else:
-            self.send_response(404)
-            self.send_header('Content-Type', 'text/html')
-            self.end_headers()
-            self.wfile.write(html)
+            self.wfile.write(HTML)
+#            return
+#        file_path = urllib.unquote(path)[1:]
+#        if os.path.isfile(file_path):
+#            self.send_response(200)
+#            self.send_header('Content-Type', 'application/x-python')
+#            self.send_header('Content-Disposition',
+#                             'attachment; filename=%s' % file_path)
+#            self.end_headers()
+#            with open(file_path, 'r') as f:
+#                data = f.read()
+#                self.wfile.write(data)
+#        else:
+#            self.send_response(404)
+#            self.send_header('Content-Type', 'text/html')
+#            self.end_headers()
+#            self.wfile.write(html)
 
     def do_POST(self):
         form = cgi.FieldStorage(fp=self.rfile, headers=self.headers,
@@ -161,7 +160,7 @@ class TransferRequestHandler(BaseHTTPRequestHandler):
 class MyCaptureMedia (CaptureMedia):
     def did_load(self):
         self.name = 'My Capture Media'
-        self.lHelp = ui.Label()
+        self.lHelp = ui.Label(frame=(30, 10, 180, 30))
         self.lHelp.text = 'Please choose media...'
         self.add_subview(self.lHelp)
         super(MyCaptureMedia, self).did_load()
@@ -169,10 +168,10 @@ class MyCaptureMedia (CaptureMedia):
     def layout(self):
         self.width = 320
         self.height = 200
-        self.lHelp.x = 30
-        self.lHelp.y = 10
-        self.lHelp.width = 180
-        self.lHelp.height = 30
+#        self.lHelp.x = 30
+#        self.lHelp.y = 10
+#        self.lHelp.width = 180
+#        self.lHelp.height = 30
 
 if __name__ == "__main__":
     mcm = MyCaptureMedia()
