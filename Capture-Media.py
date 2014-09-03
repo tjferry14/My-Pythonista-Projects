@@ -75,7 +75,7 @@ class CaptureMedia(ui.View):
 
 class TransferRequestHandler(BaseHTTPRequestHandler):
     '''--------from OMZ's File Transfer script--------'''
-    global TEMPLATE
+#    global TEMPLATE
     HTML = ('<!DOCTYPE html><html><head></head><body>' +
 #    '<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/'+
 #    'css/bootstrap-combined.min.css" rel="stylesheet"></head><body>' +
@@ -108,7 +108,7 @@ class TransferRequestHandler(BaseHTTPRequestHandler):
             self.send_header('Content-Type', 'text/html')
             self.end_headers()
             self.wfile.write(HTML)
-            return
+#            return
 #        file_path = urllib.unquote(path)[1:]
 #        if os.path.isfile(file_path):
 #            self.send_response(200)
