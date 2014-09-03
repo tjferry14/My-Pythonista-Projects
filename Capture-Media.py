@@ -119,7 +119,6 @@ class Settings (object):
 
 class TransferRequestHandler(BaseHTTPRequestHandler):
     '''--------from OMZ's File Transfer script--------'''
-#    global TEMPLATE
     HTML = ('<!DOCTYPE html><html><head></head><body>' +
 #    '<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/'+
 #    'css/bootstrap-combined.min.css" rel="stylesheet"></head><body>' +
@@ -144,31 +143,11 @@ class TransferRequestHandler(BaseHTTPRequestHandler):
             suffix_n += 1
 
     def do_GET(self):
-#        parsed_path = urlparse.urlparse(self.path)
-#        path = parsed_path.path
-#        if path == '/':
-#            html = TEMPLATE
-#            html = html.replace('{{ALERT}}', '')
-            self.send_response(200)
-            self.send_header('Content-Type', 'text/html')
-            self.end_headers()
-            self.wfile.write(HTML)
-#            return
-#        file_path = urllib.unquote(path)[1:]
-#        if os.path.isfile(file_path):
-#            self.send_response(200)
-#            self.send_header('Content-Type', 'application/x-python')
-#            self.send_header('Content-Disposition',
-#                             'attachment; filename=%s' % file_path)
-#            self.end_headers()
-#            with open(file_path, 'r') as f:
-#                data = f.read()
-#                self.wfile.write(data)
-#        else:
-#            self.send_response(404)
-#            self.send_header('Content-Type', 'text/html')
-#            self.end_headers()
-#            self.wfile.write(html)
+        self.send_response(200)
+        self.send_header('Content-Type', 'text/html')
+        self.end_headers()
+        self.wfile.write(HTML)
+
 
     def do_POST(self):
         form = cgi.FieldStorage(fp=self.rfile, headers=self.headers,
@@ -213,10 +192,6 @@ class MyCaptureMedia (CaptureMedia):
     def layout(self):
         self.width = 320
         self.height = 200
-#        self.lHelp.x = 30
-#        self.lHelp.y = 10
-#        self.lHelp.width = 180
-#        self.lHelp.height = 30
 
 if __name__ == "__main__":
     mcm = MyCaptureMedia()
