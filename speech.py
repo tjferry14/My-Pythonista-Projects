@@ -6,8 +6,7 @@ class SpeechView(ui.View):
     def __init__(self):
         self.lang  = 'en-GB'
         self.speed = 0.1
-        on_an_iPad = ui.get_screen_size()[0] > 767
-        self.present(orientations=['landscape' if on_an_iPad else 'portrait'], hide_title_bar=True)
+        self.present(orientations=['landscape'], hide_title_bar=True)
 
     def did_load(self):
         self.say('Greetings!')
