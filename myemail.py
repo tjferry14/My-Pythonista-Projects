@@ -21,8 +21,8 @@ def cancel_action(sender):
 
 def main():	
 	global sendto, subj, assignment		
-	header = 'To: ' + sendto + '\\n' + 'From: ' + email_user + '\\n' + 'Subject: ' + subj +'\\n'
-	msg = header + assignment + '\\n'
+	header = 'To: ' + sendto + '\n' + 'From: ' + email_user + '\n' + 'Subject: ' + subj +'\n'
+	msg = header + assignment + '\n'
 	smtpserver.sendmail(email_user, sendto, msg)
 	sent_time = time.strftime("%A, %B %d, %Y at %I:%M:%S %p.", time.localtime())
 	console.hud_alert('Your message has been sent successfully on ' + sent_time, 'success', 2.1)
