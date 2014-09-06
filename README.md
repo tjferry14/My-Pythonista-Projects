@@ -25,3 +25,7 @@ A basic script using UI that generates two random scores.
 ### tweetme.py
 
 A simple script using UI that allows you to tweet whatever you type into it.
+
+### count_text.py
+
+A simple script using UI that counts the amount of letters or numbers in text you give it.
