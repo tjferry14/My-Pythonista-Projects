@@ -15,11 +15,11 @@ def select(sender):
 	#open_file("~/Notepad" + [sender.selected_row])
 	print (sender, sender.selected_row, sender.items)
 
-def create_note(sender):
-	namefile = v['namefield'].text + '.txt'
-	txtfile = v['textview1'].text
-	with open(namefile, 'w') as out_file:
-			out_file.write(txtfile)
+def create_file(sender):
+	file_name = v['namefield'].text + '.txt'
+	created_file = v['textview1'].text
+	with open(file_name, 'w') as out_file:
+			out_file.write(created_file)
 	table_data()
 	hud_alert('File successfully created!', 'success', 1.0)
 
