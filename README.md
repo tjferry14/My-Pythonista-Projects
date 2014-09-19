@@ -1,35 +1,14 @@
 Fun Pythonista Projects
 ====================
 
-### speech.py
+| Script Name                        | Description                | 
+| ---------------------------------- | -------------------------- | 
+| speech.py     * | Using UI says whatever you type into it. |
+| Capture-Media.py     * | Using UI records media from your iPad. Created by @tony on the Pythonista Forums.|
+| myemail.py      | Using UI sends an email using your email account. |
+| scores.py      | Using UI generates two random scores. |
+| tweetme.py      | Using UI allows you to tweet whatever you type into it. |
+| count_text.py      | Using UI counts the amount of letters or numbers in text you give it. |
+| notepad.py      | Using UI can create a text file.  |
 
-A simple script using UI that says whatever you type into it.
-
-**Note: Using the record feature on iOS 8 crashes Pythonista. This is not fully completed yet as well.**
-
-### Capture-Media.py
-
-A simple script using UI that records media from your iPad.
-Created by @tony on the Pythonista Forums.
-
-**Note: Running this on iOS 8 crashes Pythonista.**
-
-### myemail.py
-
-A basic script using UI that sends an email using your email account.
-
-### scores.py
-
-A basic script using UI that generates two random scores.
-
-### tweetme.py
-
-A simple script using UI that allows you to tweet whatever you type into it.
-
-### count_text.py
-
-A simple script using UI that counts the amount of letters or numbers in text you give it.
-
-### notepad.py
-
-A basic script using UI that can create a text file. 
+**Note: Running speech.py and/or Capture-Media.py  on iOS 8 crashes Pythonista.**
