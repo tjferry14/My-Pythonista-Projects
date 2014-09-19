@@ -5,14 +5,14 @@ Fun Pythonista Projects
 
 A simple script using UI that says whatever you type into it.
 
-**Note: Using the record feature on the iOS 8 beta crashes Pythonista. This is not fully completed yet as well.**
+**Note: Using the record feature on iOS 8 crashes Pythonista. This is not fully completed yet as well.**
 
 ### Capture-Media.py
 
 A simple script using UI that records media from your iPad.
 Created by @tony on the Pythonista Forums.
 
-**Note: Running this on the iOS 8 beta crashes Pythonista.**
+**Note: Running this on iOS 8 crashes Pythonista.**
 
 ### myemail.py
 
@@ -29,3 +29,7 @@ A simple script using UI that allows you to tweet whatever you type into it.
 ### count_text.py
 
 A simple script using UI that counts the amount of letters or numbers in text you give it.
+
+### notepad.py
+
+A basic script using UI that can create a text file. 
