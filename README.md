@@ -11,4 +11,4 @@ Fun Pythonista Projects
 | count_text.py      | Using UI counts the amount of letters or numbers in text you give it. |
 | notepad.py      | Using UI can create a text file.  |
 
-**Note: Running speech.py and/or Capture-Media.py  on iOS 8 crashes Pythonista.**
+**Note: Running speech.py and/or Capture-Media.py  on iOS 8.0 crashes Pythonista.**
