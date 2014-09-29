@@ -1,9 +1,52 @@
+# coding: utf-8
 from os import listdir, getcwd
 from editor import open_file
 from console import hud_alert
 import ui
 
+# opening files does not work yet
+
+def set_actions(self):
+	# method 2: traversing all subviews
+		for subview in self.subviews:
+			if isinstance(subview, ui.TextField):
+				subview.delegate = self
+
+def textfield_did_change(self, textfield):
+		query = v['searchbox'].text
+		tv1 = v['file-table']
+		try:
+			if query in dir_items:
+				tv1.data_source = ui.ListDataSource([query])
+				tv1.reload()
+			elif query == '': 
+				tv1.data_source = ui.ListDataSource(listdir(getcwd()))
+				tv1.reload()
+			else:
+				tv1.data_source = None
+				tv1.reload()
+		except IndexError:
+			pass
+
+
+def search_files(sender):
+		query = v['searchbox'].text
+		tv1 = v['file-table']
+		try:
+			if query in dir_items:
+				tv1.data_source = ui.ListDataSource([query])
+				tv1.reload()
+			elif query == '': 
+				tv1.data_source = ui.ListDataSource(listdir(getcwd()))
+				tv1.reload()
+			else:
+				tv1.data_source = None
+				tv1.reload()
+		except IndexError:
+			pass
+
 def table_data():
+	global dir_items # for search
 	dir_items = listdir(getcwd())
 	lst = ui.ListDataSource(dir_items)
 	tv1 = v['file-table']
@@ -13,7 +56,7 @@ def table_data():
 def select(sender):
 	v.close()
 	#open_file("~/Notepad" + [sender.selected_row])
-	print (sender, sender.selected_row, sender.items)
+	print(sender, sender.selected_row, sender.items)
 	
 def make_file():
 	global file_name, created_file
@@ -36,5 +79,13 @@ def check(sender):
 		make_file()
 
 v = ui.load_view('notepad')
+
+create = ui.ButtonItem()
+create.image = ui.Image.named('ionicons-compose-32')
+create.action = check
+v.right_button_items = [create]
+
 table_data()
+v['searchbox'].action = search_files
+v['searchbox'].clear_button_mode = 'while_editing'
 v.present('full_screen')
