@@ -33,8 +33,8 @@ class NotepadView(ui.View):
         return button
 
     def reload_file_list(self, file_list=None):
-        file_list = file_list or sorted_file_names()
-        self['search string'].text = ''
+        if file_list == None:  # None is different than []
+            file_list = sorted_file_names()
         table_view = self['file list']
         table_view.data_source = table_view.delegate = ui.ListDataSource(file_list)
         table_view.delegate.action = self.file_list_tapped
@@ -52,6 +52,7 @@ class NotepadView(ui.View):
         with open(file_name) as in_file:
             self['file content'].text = in_file.read()
         self['file name'].text = file_name
+        self['search string'].text = ''
 
 if __name__ == '__main__':
     ui.load_view()
