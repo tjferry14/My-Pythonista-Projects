@@ -8,7 +8,7 @@ def sorted_file_names(dir_path=None):
 class NotepadView(ui.View):
     def __init__(self):
         self.right_button_items = [self.make_create_button()]
-        self.present()
+        self.present(orientations = ['landscape', 'landscape-upside-down'])
 
     def did_load(self):
         self['search string'].delegate = self
