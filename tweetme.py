@@ -1,12 +1,8 @@
 import ui
 import webbrowser
 
-# for some reason, this wont work with spaces in the text, need to
-# figure this out
-
 def tweet(sender):
-	text = v['user_text'].text
-	# text.replace(' ', '%20') # tried this but doesnt work
+	text = v['user_text'].text.strip().replace(' ', '%20')
 	webbrowser.open('twitter://post?message=' + text)
 
 v = ui.load_view('tweetme')
