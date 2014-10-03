@@ -1,13 +1,13 @@
 # coding: utf-8
 
-import console, editor, os, ui
+import console, clipboard, editor, os, ui
 
 def sorted_file_names(dir_path=None):
     return sorted(os.listdir(dir_path or os.getcwd()), key=str.lower)
 
 class NotepadView(ui.View):
     def __init__(self):
-        self.right_button_items = [self.make_create_button()]
+        self.right_button_items = [self.make_create_button(), self.make_copy_button()]
         self.present(orientations = ['landscape', 'landscape-upside-down'])
 
     def did_load(self):
@@ -26,11 +26,21 @@ class NotepadView(ui.View):
         else:
             console.hud_alert('No text entered.', 'error', 1.0)
 
+    def copy_action(self, sender):
+        clipboard.set(self['file content'].text)
+        console.hud_alert('Copied', 'success', 1.0)
+
     def make_create_button(self):
         button = ui.ButtonItem()
         button.image = ui.Image.named('ionicons-compose-32')
         button.action = self.create_button_action
         return button
+
+    def make_copy_button(self):
+        copy = ui.ButtonItem()
+        copy.image = ui.Image.named('ionicons-ios7-copy-32')
+        copy.action = self.copy_action
+        return copy
 
     def reload_file_list(self, file_list=None):
         if file_list == None:  # None is different than []
