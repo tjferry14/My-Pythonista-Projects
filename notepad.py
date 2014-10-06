@@ -1,91 +1,68 @@
 # coding: utf-8
-from os import listdir, getcwd
-from editor import open_file
-from console import hud_alert
-import ui
 
-# opening files does not work yet
+import console, clipboard, editor, os, ui
 
-def set_actions(self):
-	# method 2: traversing all subviews
-		for subview in self.subviews:
-			if isinstance(subview, ui.TextField):
-				subview.delegate = self
+def sorted_file_names(dir_path=None):
+    return sorted(os.listdir(dir_path or os.getcwd()), key=str.lower)
 
-def textfield_did_change(self, textfield):
-		query = v['searchbox'].text
-		tv1 = v['file-table']
-		try:
-			if query in dir_items:
-				tv1.data_source = ui.ListDataSource([query])
-				tv1.reload()
-			elif query == '': 
-				tv1.data_source = ui.ListDataSource(listdir(getcwd()))
-				tv1.reload()
-			else:
-				tv1.data_source = None
-				tv1.reload()
-		except IndexError:
-			pass
+class NotepadView(ui.View):
+    def __init__(self):
+        self.right_button_items = [self.make_create_button(), self.make_copy_button()]
+        self.present(orientations = ['landscape', 'landscape-upside-down'])
 
+    def did_load(self):
+        self['search string'].delegate = self
+        self.reload_file_list()
 
-def search_files(sender):
-		query = v['searchbox'].text
-		tv1 = v['file-table']
-		try:
-			if query in dir_items:
-				tv1.data_source = ui.ListDataSource([query])
-				tv1.reload()
-			elif query == '': 
-				tv1.data_source = ui.ListDataSource(listdir(getcwd()))
-				tv1.reload()
-			else:
-				tv1.data_source = None
-				tv1.reload()
-		except IndexError:
-			pass
+    def create_button_action(self, sender):
+        file_content = self['file content'].text
+        if file_content:
+            file_name = (self['file name'].text or 'Untitled') + '.txt'
+            with open(file_name, 'w') as out_file:
+                out_file.write(file_content)
+            self.reload_file_list()
+            msg = 'File "{}" successfully created!'.format(file_name)
+            console.hud_alert(msg, 'success', 1.0)
+        else:
+            console.hud_alert('No text entered.', 'error', 1.0)
 
-def table_data():
-	global dir_items # for search
-	dir_items = listdir(getcwd())
-	lst = ui.ListDataSource(dir_items)
-	tv1 = v['file-table']
-	tv1.data_source = lst
-	tv1.reload()
-	
-def select(sender):
-	v.close()
-	#open_file("~/Notepad" + [sender.selected_row])
-	print(sender, sender.selected_row, sender.items)
-	
-def make_file():
-	global file_name, created_file
-	with open(file_name, 'w') as out_file:
-			out_file.write(created_file)
-	table_data()
-	hud_alert('File successfully created!', 'success', 1.0)
+    def copy_action(self, sender):
+        clipboard.set(self['file content'].text)
+        console.hud_alert('Copied', 'success', 1.0)
 
-def check(sender):
-	global file_name, created_file
-	file_name = v['namefield'].text + '.txt'
-	if file_name == '.txt':
-		file_name = 'Untitled' + '.txt'
-	else: 
-		pass
-	created_file = v['textview1'].text
-	if created_file == '':
-		hud_alert('No text entered.', 'error', 1.0)
-	else:	
-		make_file()
+    def make_create_button(self):
+        button = ui.ButtonItem()
+        button.image = ui.Image.named('ionicons-compose-32')
+        button.action = self.create_button_action
+        return button
 
-v = ui.load_view('notepad')
+    def make_copy_button(self):
+        copy = ui.ButtonItem()
+        copy.image = ui.Image.named('ionicons-ios7-copy-32')
+        copy.action = self.copy_action
+        return copy
 
-create = ui.ButtonItem()
-create.image = ui.Image.named('ionicons-compose-32')
-create.action = check
-v.right_button_items = [create]
+    def reload_file_list(self, file_list=None):
+        if file_list == None:  # None is different than []
+            file_list = sorted_file_names()
+        table_view = self['file list']
+        table_view.data_source = table_view.delegate = ui.ListDataSource(file_list)
+        table_view.delegate.action = self.file_list_tapped
+        table_view.reload()
 
-table_data()
-v['searchbox'].action = search_files
-v['searchbox'].clear_button_mode = 'while_editing'
-v.present('full_screen')
+    def textfield_did_change(self, textfield):
+        the_files = sorted_file_names()
+        query = self['search string'].text
+        if query:
+            the_files = [f for f in the_files if query in f]
+        self.reload_file_list(the_files)
+
+    def file_list_tapped(self, sender):
+        file_name = sender.items[sender.selected_row]
+        with open(file_name) as in_file:
+            self['file content'].text = in_file.read()
+        self['file name'].text = file_name
+        self['search string'].text = ''
+
+if __name__ == '__main__':
+    ui.load_view()
