@@ -9,6 +9,6 @@ Fun Pythonista Projects
 | scores.py      | Using UI generates two random scores. |
 | tweetme.py      | Using UI allows you to tweet whatever you type into it. |
 | count_text.py      | Using UI counts the amount of letters or numbers in text you give it. |
-| notepad.py      | Using UI can create a text file.  |
+| notepad.py      | Using UI can create a text file and view other files in current directory. |
 
-**Note: Running speech.py and/or Capture-Media.py  on iOS 8.0 crashes Pythonista.**
+**Note: Running the record feature in speech.py and/or running Capture-Media.py  on iOS 8.0 crashes Pythonista.**
