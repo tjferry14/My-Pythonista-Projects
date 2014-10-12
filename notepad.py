@@ -27,8 +27,12 @@ class NotepadView(ui.View):
             console.hud_alert('No text entered.', 'error', 1.0)
 
     def copy_action(self, sender):
-        clipboard.set(self['file content'].text)
-        console.hud_alert('Copied', 'success', 1.0)
+        file_content = self['file content'].text
+        if file_content:
+          clipboard.set(file_content)
+          console.hud_alert('Copied', 'success', 1.0)
+        else:
+          console.hud_alert('No text entered to copy.', 'error', 1.0)
 
     def make_create_button(self):
         button = ui.ButtonItem()
