@@ -10,5 +10,6 @@ Fun Pythonista Projects
 | tweetme.py      | Using UI allows you to tweet whatever you type into it. |
 | count_text.py      | Using UI counts the amount of letters or numbers in text you give it. |
 | notepad.py      | Using UI can create a text file and view other files in current directory. |
+| contact_browser.py      | Using UI displays all your current contacts and allows you to search through them. |
 
 **Note: Running the record feature in speech.py and/or running Capture-Media.py  on iOS 8.0 crashes Pythonista.**
