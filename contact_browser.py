@@ -4,19 +4,19 @@ people = contacts.get_all_people()
 names = sorted([p.full_name for p in people])
 
 class TheDelegate(object):
-    def textfield_did_change(self, textfield):
-        query = textfield.text.lower()
-        contacts_view = textfield.superview['contactstable']
-        matches = None
-        if query:
-            matches = sorted([p.full_name for p in people
-                    if query in p.full_name.lower()])
-            #console.hud_alert(str(len(matches)))  # perhaps this should be a read-only value on the UI
-        contacts_view.data_source.items = matches or names
-        contacts_view.reload()
+	def textfield_did_change(self, textfield):
+		query = textfield.text.lower()
+		contacts_view = textfield.superview['contactstable']
+		matches = None
+		if query:
+			matches = sorted([p.full_name for p in people
+			if query in p.full_name.lower()])
+			v.name = str(len(matches)) + ' Matches' 
+		contacts_view.data_source.items = matches or names
+		contacts_view.reload()
 
-    def tableview_did_select(self, tableview, section, row):
-        console.hud_alert(tableview.data_source.items[row], 'success', 0.5)
+	def tableview_did_select(self, tableview, section, row):
+		console.hud_alert(tableview.data_source.items[row], 'success', 0.5)
 
 v = ui.load_view('contact_browser')
 the_delegate = TheDelegate()
