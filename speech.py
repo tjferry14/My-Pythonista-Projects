@@ -27,7 +27,7 @@ def button_speak_action(sender):
 	global speed
 	text = v['user_text'].text
 	if text == 'Enter your text here':
-		text = 'Please tell me something to say, Sir.'
+		text = 'Please tell me something to say.'
 	speech.say(text, lang, speed)
 	
 def copy_action(sender):
@@ -57,7 +57,7 @@ paste = ui.ButtonItem()
 paste.image = ui.Image.named('ionicons-clipboard-32')
 paste.action = paste_action
 
-speech.say('Greetings, Master Wayne.', lang, 0.1)
+speech.say('Greetings.', lang, 0.1)
 v['languages'].scroll_enabled = False
 v.right_button_items = [speak, copy, paste]
 v.present(orientations=['landscape'])
