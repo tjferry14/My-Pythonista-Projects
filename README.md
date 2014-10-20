@@ -12,4 +12,4 @@ Fun Pythonista UI Projects
 | notepad.py      | Create a text file and/or view other files in current directory. |
 | contact_browser.py      | Displays all your current contacts and allows you to search through them. |
 
-**Note: Running the record feature in speech.py and/or running Capture-Media.py on iOS 8.0 crashes Pythonista.**
+**Note: Running Capture-Media.py on iOS 8.0 crashes Pythonista.**
