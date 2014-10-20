@@ -1,54 +1,31 @@
-import contacts
-import ui
+import console, contacts, ui
 
-# excuse the ugly code but it works :)
-
-class Data (ui.ListDataSource):
-	def __init__(self, items=None):
-		ui.ListDataSource.__init__(self, items)
-
-	def tableview_cell_for_row(self, tableview, section, row):
-		cell = ui.TableViewCell()
-		cell.text_label.text = str(self.items[row])
-		return cell
-
-names = []
-first_names = []
-last_names = []
-nicknames = []
 people = contacts.get_all_people()
-for p in people:
-	names.append(p.full_name)
-	first_names.append(p.first_name)
-	last_names.append(p.last_name)
-	nicknames.append(p.nickname)
-	
-def search(sender):
-	query = v['search string'].text
-	contacts_view = v['contactstable']
-	try:
-			if query in names or first_names or last_names or nicknames:
-				contacts_view.data_source = Data(items=[query])
-				contacts_view.reload()
-			elif query == '': 
-				contacts_view.data_source = Data(items=names)
-				contacts_view.reload()
-			else:
-				contacts_view.data_source = None
-				contacts_view.reload()
-	except IndexError:
-		pass
+names = sorted([p.full_name for p in people])
+
+class TheDelegate(object):
+    def textfield_did_change(self, textfield):
+        query = textfield.text.lower()
+        contacts_view = textfield.superview['contactstable']
+        matches = None
+        if query:
+            matches = sorted([p.full_name for p in people
+                    if query in p.full_name.lower()])
+            #console.hud_alert(str(len(matches)))  # perhaps this should be a read-only value on the UI
+        contacts_view.data_source.items = matches or names
+        contacts_view.reload()
+
+    def tableview_did_select(self, tableview, section, row):
+        console.hud_alert(tableview.data_source.items[row], 'success', 0.5)
 
 v = ui.load_view('contact_browser')
+the_delegate = TheDelegate()
 
 v['search string'].clear_button_mode = 'while_editing'
+v['search string'].delegate = the_delegate
 
 contacts_view = v['contactstable']
-contacts_view.data_source = Data(items=names)
-
-searchbut = ui.ButtonItem()
-searchbut.image = ui.Image.named('ionicons-ios7-search-strong-32')
-searchbut.action = search
-v.right_button_items = [searchbut]
+contacts_view.data_source = ui.ListDataSource(names)
+contacts_view.delegate = the_delegate
 
 v.present('sheet')
