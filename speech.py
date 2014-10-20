@@ -1,23 +1,24 @@
-import speech
-import ui
-import clipboard
-import console
+import clipboard, console, speech, ui
 
 lang = 'en-GB'
 speed = 0.1
 
+lang_dict = {
+	'American'   : 'en-US',
+	'British'    : 'en-GB',
+	'Italian'    : 'it-IT',
+	'Spanish'    : 'es-MX',
+	'Australian' : 'en-AU',
+	'Japanese'   : 'ja-JP',
+	'German'     : 'de-DE' }
+
 def table_action(sender):
 	global lang
-	selected_lang = sender.items[sender.selected_row]['title']
-	if selected_lang == 'American': lang = 'en-US'
-	if selected_lang == 'British': lang = 'en-GB'
-	if selected_lang == 'Italian': lang = 'it-IT'
-	if selected_lang == 'Spanish': lang = 'es-MX'
-	if selected_lang == 'Australian': lang = 'en-AU'
-	if selected_lang == 'Japanese': lang = 'ja-JP'
-	if selected_lang == 'German': lang = 'de-DE'
-	else:
-		pass
+	prev_lang = lang
+	selected_lang = sender.items[sender.selected_row]
+	lang = lang_dict.get(selected_lang, lang)
+	if lang not in ('en-US', prev_lang):  # workaround for bug
+		speech.say('workaround', lang, speed)
 
 def slider_action(sender):
 	global speed
@@ -29,7 +30,7 @@ def button_speak_action(sender):
 	if text == 'Enter your text here':
 		text = 'Please tell me something to say.'
 	speech.say(text, lang, speed)
-	
+
 def copy_action(sender):
 	text = v['user_text'].text
 	if text == 'Enter your text here':
@@ -40,24 +41,24 @@ def copy_action(sender):
 		
 def paste_action(sender):
 	text = clipboard.get()
-	console.hud_alert('Pasted', 'success', 1.0)
-	v['user_text'].text = text
+	if text:
+		console.hud_alert('Pasted', 'success', 1.0)
+		v['user_text'].text = text
+
+def make_button_item(image_name, action):
+	button_item = ui.ButtonItem()
+	button_item.image = ui.Image.named(image_name)
+	button_item.action = action
+	return button_item
 
 v = ui.load_view('speech')
 
-speak = ui.ButtonItem()
-speak.image = ui.Image.named('ionicons-ios7-volume-high-32')
-speak.action = button_speak_action
-
-copy = ui.ButtonItem()
-copy.image = ui.Image.named('ionicons-ios7-copy-32')
-copy.action = copy_action
-
-paste = ui.ButtonItem()
-paste.image = ui.Image.named('ionicons-clipboard-32')
-paste.action = paste_action
+speak = make_button_item('ionicons-ios7-volume-high-32', button_speak_action)
+copy  = make_button_item('ionicons-ios7-copy-32',        copy_action)
+paste = make_button_item('ionicons-clipboard-32',        paste_action)
 
 speech.say('Greetings.', lang, 0.1)
+v['languages'].data_source.items = sorted([x for x in lang_dict])
 v['languages'].scroll_enabled = False
 v.right_button_items = [speak, copy, paste]
 v.present(orientations=['landscape'])
