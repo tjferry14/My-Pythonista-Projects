@@ -1,9 +1,14 @@
+import console
 import ui
 import webbrowser
 
 def tweet(sender):
-	text = v['user_text'].text.strip().replace(' ', '%20')
-	webbrowser.open('twitter://post?message=' + text)
+	tweet_text = v['user_text']
+	text = tweet_text.text.strip().replace(' ', '%20')
+	if len(text) < 140:
+		webbrowser.open('twitter://post?message=' + text)
+	else:
+		console.hud_alert('Exceeded Character Limit', 'error', 1.5)
 
 v = ui.load_view('tweetme')
 
