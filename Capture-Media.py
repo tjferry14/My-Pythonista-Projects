@@ -120,15 +120,9 @@ class Settings (object):
 class TransferRequestHandler(BaseHTTPRequestHandler):
     '''--------from OMZ's File Transfer script--------'''
     HTML = ('<!DOCTYPE html><html><head></head><body>' +
-#    '<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/3.2.0/'+
-#    'css/bootstrap-combined.min.css" rel="stylesheet"></head><body>' +
-#    '<div class="container">' +
-#    '<h2>Upload File</h2>'
     '<form id="form" action="/" method="POST" enctype="multipart/form-data">' +
-#    '<div class="form-actions">' +
     '<input id="file" type="file" name="file"></input>' +
     '<button id="submit" type="submit" class="btn btn-primary">Upload</button>' +
-#    '</div></form></p><hr/>' +
     '</form></body></html>')
 
     def get_unused_filename(self, filename):
