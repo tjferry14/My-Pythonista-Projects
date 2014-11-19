@@ -1,4 +1,4 @@
-Fun Pythonista UI Projects
+My Pythonista Projects
 ====================
 
 | Script Name                        | Description                | 
