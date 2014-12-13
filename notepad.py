@@ -1,13 +1,14 @@
 # coding: utf-8
 
-import console, clipboard, editor, os, ui
+import console, clipboard, dialogs, editor, os, ui
+file_type = '.txt'
 
 def sorted_file_names(dir_path=None):
     return sorted(os.listdir(dir_path or os.getcwd()), key=str.lower)
 
 class NotepadView(ui.View):
     def __init__(self):
-        self.right_button_items = [self.make_create_button(), self.make_copy_button()]
+        self.right_button_items = [self.make_create_button(), self.make_copy_button(), self.make_type_button(), self.make_share_button()]
         self.present(orientations = ['landscape', 'landscape-upside-down'])
 
     def did_load(self):
@@ -17,7 +18,7 @@ class NotepadView(ui.View):
     def create_button_action(self, sender):
         file_content = self['file content'].text
         if file_content:
-            file_name = (self['file name'].text or 'Untitled') + '.txt'
+            file_name = (self['file name'].text or 'Untitled') + file_type
             with open(file_name, 'w') as out_file:
                 out_file.write(file_content)
             self.reload_file_list()
@@ -33,12 +34,32 @@ class NotepadView(ui.View):
           console.hud_alert('Copied', 'success', 1.0)
         else:
           console.hud_alert('No text entered to copy.', 'error', 1.0)
+    
+    @ui.in_background
+    def share_action(self, sender):
+        file_name = self['file name'].text
+        console.open_in(file_name)
+    
+    def type_action(self, sender):
+        file_type = dialogs.list_dialog(title='Select a file type', items=['.txt', '.py'], multiple=False)
 
     def make_create_button(self):
         button = ui.ButtonItem()
         button.image = ui.Image.named('ionicons-compose-32')
         button.action = self.create_button_action
         return button
+        
+    def make_type_button(self):
+        typebutt = ui.ButtonItem()
+        typebutt.image = ui.Image.named('ionicons-folder-32')
+        typebutt.action = self.type_action
+        return typebutt
+        
+    def make_share_button(self):
+        sharebutt = ui.ButtonItem()
+        sharebutt.image = ui.Image.named('ionicons-ios7-redo-32')
+        sharebutt.action = self.share_action
+        return sharebutt
 
     def make_copy_button(self):
         copy = ui.ButtonItem()
@@ -70,3 +91,4 @@ class NotepadView(ui.View):
 
 if __name__ == '__main__':
     ui.load_view()
+    
