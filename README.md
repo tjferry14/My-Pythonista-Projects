@@ -12,6 +12,6 @@ My Pythonista Projects
 | notepad.py      | Create a text file and/or view other files in current directory. |
 | contact_browser.py      | Displays all your current contacts and allows you to search through them. |
 | forecast.py     | Displays local weather using UI Module. |
-| reminders.py     | Basic reminders script UI Module. |
+| reminders.py     | Basic reminders script using UI Module. |
 
 **Note: Running Capture-Media.py on iOS 8.0 crashes Pythonista.**
