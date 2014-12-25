@@ -9,7 +9,7 @@ class NotepadView(ui.View):
     def __init__(self):
         self.right_button_items = [self.make_create_button(), self.make_copy_button(), self.make_type_button(), self.make_share_button()]
         self.present(orientations = ['landscape', 'landscape-upside-down'])
-        self.file_typel = '.txt'
+        self.file_type = '.txt'
 
     def did_load(self):
         self['search string'].delegate = self
