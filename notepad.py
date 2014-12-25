@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import console, clipboard, dialogs, editor, os, ui
-file_type = '.txt'
 
 def sorted_file_names(dir_path=None):
     return sorted(os.listdir(dir_path or os.getcwd()), key=str.lower)
@@ -10,6 +9,7 @@ class NotepadView(ui.View):
     def __init__(self):
         self.right_button_items = [self.make_create_button(), self.make_copy_button(), self.make_type_button(), self.make_share_button()]
         self.present(orientations = ['landscape', 'landscape-upside-down'])
+        self.file_typel = '.txt'
 
     def did_load(self):
         self['search string'].delegate = self
@@ -18,7 +18,7 @@ class NotepadView(ui.View):
     def create_button_action(self, sender):
         file_content = self['file content'].text
         if file_content:
-            file_name = (self['file name'].text or 'Untitled') + file_type
+            file_name = (self['file name'].text or 'Untitled') + self.file_type
             with open(file_name, 'w') as out_file:
                 out_file.write(file_content)
             self.reload_file_list()
@@ -41,7 +41,7 @@ class NotepadView(ui.View):
         console.open_in(file_name)
     
     def type_action(self, sender):
-        file_type = dialogs.list_dialog(title='Select a file type', items=['.txt', '.py'], multiple=False)
+        self.file_type =  str(dialogs.list_dialog(title='Select a file type', items=[".txt", ".py"], multiple=False))
 
     def make_create_button(self):
         button = ui.ButtonItem()
