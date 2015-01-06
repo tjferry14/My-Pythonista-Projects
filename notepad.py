@@ -2,12 +2,22 @@
 
 import console, clipboard, dialogs, editor, os, ui
 
+def make_button_item(image_name, action):
+        button_item = ui.ButtonItem()
+        button_item.image = ui.Image.named(image_name)
+        button_item.action = action
+        return button_item
+
 def sorted_file_names(dir_path=None):
     return sorted(os.listdir(dir_path or os.getcwd()), key=str.lower)
 
 class NotepadView(ui.View):
     def __init__(self):
-        self.right_button_items = [self.make_create_button(), self.make_copy_button(), self.make_type_button(), self.make_share_button()]
+        button = make_button_item('ionicons-compose-32', self.create_button_action)
+        typebutt = make_button_item('ionicons-folder-32', self.type_action)
+        sharebutt = make_button_item('ionicons-ios7-redo-32', self.share_action)
+        copy = make_button_item('ionicons-ios7-copy-32', self.copy_action)
+        self.right_button_items = [button, typebutt, sharebutt, copy]
         self.present(orientations = ['landscape', 'landscape-upside-down'])
         self.file_type = '.txt'
 
@@ -42,30 +52,6 @@ class NotepadView(ui.View):
     
     def type_action(self, sender):
         self.file_type =  str(dialogs.list_dialog(title='Select a file type', items=[".txt", ".py"], multiple=False))
-
-    def make_create_button(self):
-        button = ui.ButtonItem()
-        button.image = ui.Image.named('ionicons-compose-32')
-        button.action = self.create_button_action
-        return button
-        
-    def make_type_button(self):
-        typebutt = ui.ButtonItem()
-        typebutt.image = ui.Image.named('ionicons-folder-32')
-        typebutt.action = self.type_action
-        return typebutt
-        
-    def make_share_button(self):
-        sharebutt = ui.ButtonItem()
-        sharebutt.image = ui.Image.named('ionicons-ios7-redo-32')
-        sharebutt.action = self.share_action
-        return sharebutt
-
-    def make_copy_button(self):
-        copy = ui.ButtonItem()
-        copy.image = ui.Image.named('ionicons-ios7-copy-32')
-        copy.action = self.copy_action
-        return copy
 
     def reload_file_list(self, file_list=None):
         if file_list == None:  # None is different than []
