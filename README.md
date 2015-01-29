@@ -13,6 +13,7 @@ My Pythonista Projects
 | contact_browser.py      | Displays all your current contacts and allows you to search through them. |
 | forecast.py     | Displays local weather using UI Module. |
 | reminders.py     | Basic reminders script using UI Module. |
-| backup.py | Basic script to back up your script library and upload to Dropbox. |
+| backup.py | Backs up your script library and uploads it to Dropbox. |
+| lorem.py | Generate Lorem Ipsum (Copied from Editorial script with minor changes.)|
 
 **Note: Running Capture-Media.py on iOS 8.0 crashes Pythonista.**
