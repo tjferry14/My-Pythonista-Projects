@@ -22,7 +22,7 @@ def dropbox(APP_KEY, APP_SECRET, ACCESS_TYPE, upload_file):
 	url = sess.build_authorize_url(request_token)
 
 	# Make the user sign in and authorize this token
-	open(url, modal=False, stop_when_done=False)
+	open(url, modal=True)
 	raw_input('Please press enter to continue')
 
 	# This will fail if the user didn't visit the above URL and hit 'Allow'
