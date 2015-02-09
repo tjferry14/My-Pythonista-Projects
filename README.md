@@ -14,5 +14,3 @@ My Pythonista Projects
 | reminders.py     | Basic reminders script using UI Module. |
 | backup.py | Backs up your script library and uploads it to Dropbox. |
 | lorem.py | Generate Lorem Ipsum (Copied from Editorial script with minor changes.)|
-
-**Note: Running Capture-Media.py on iOS 8.0 crashes Pythonista.**
