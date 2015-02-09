@@ -4,7 +4,6 @@ My Pythonista Projects
 | Script Name                        | Description                | 
 | ---------------------------------- | -------------------------- | 
 | speech.py      | Says whatever you type into it. |
-| Capture-Media.py     * | Records media from your iPad. Created by @tony on the Pythonista Forums.|
 | myemail.py      | Sends an email using your email account. |
 | scores.py      | Generates two random scores. |
 | tweetme.py      | Allows you to tweet whatever you type into it. |
