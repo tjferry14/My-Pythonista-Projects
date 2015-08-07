@@ -49,9 +49,10 @@ class NotepadView(ui.View):
     def share_action(self, sender):
         file_name = self['file name'].text
         console.open_in(file_name)
-    
+        
+    @ui.in_background
     def type_action(self, sender):
-        self.file_type =  str(dialogs.list_dialog(title='Select a file type', items=[".txt", ".py"], multiple=False))
+        self.file_type = str(dialogs.list_dialog(title='Select a file type', items=[".txt", ".py"], multiple=False))
 
     def reload_file_list(self, file_list=None):
         if file_list == None:  # None is different than []
