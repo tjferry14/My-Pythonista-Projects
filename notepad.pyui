@@ -1,1 +1,118 @@
-[{"class":"View","attributes":{"tint_color":"RGBA(0.000000,0.478000,1.000000,1.000000)","enabled":true,"flex":"","name":"Note Pad","border_color":"RGBA(0.000000,0.000000,0.000000,1.000000)","background_color":"RGBA(1.000000,1.000000,1.000000,1.000000)","custom_class":"NotepadView"},"frame":"{{0, 0}, {1024, 710}}","nodes":[{"class":"View","attributes":{"name":"view1","background_color":"RGBA(0.857143,0.857143,0.857143,1.000000)","uuid":"C3CFEA60-D82C-4C10-9C3A-211C22F661CC","enabled":true,"border_color":"RGBA(0.000000,0.000000,0.000000,1.000000)","flex":""},"frame":"{{6, 6}, {320, 124.5}}","nodes":[]},{"class":"TableView","attributes":{"background_color":"RGBA(1.000000,1.000000,1.000000,1.000000)","border_color":"RGBA(0.857143,0.857143,0.857143,1.000000)","data_source_number_of_lines":1,"enabled":true,"flex":"WH","row_height":40,"data_source_action":"select","data_source_items":"","data_source_delete_enabled":false,"name":"file list","border_width":1,"uuid":"D6ED5C6D-E887-4112-83A6-C635241117DD","data_source_font_size":18},"frame":"{{6, 56}, {320, 644}}","nodes":[]},{"class":"TextView","attributes":{"font_size":17,"enabled":true,"flex":"","name":"file content","border_color":"RGBA(0.714286,0.714286,0.714286,1.000000)","text_color":"RGBA(0.000000,0.000000,0.000000,1.000000)","alignment":"left","editable":true,"background_color":"RGBA(1.000000,1.000000,1.000000,1.000000)","border_width":1,"uuid":"024791DA-9697-48FE-8410-71ADCA41AFA6"},"frame":"{{344, 86}, {674, 609}}","nodes":[]},{"class":"TextField","attributes":{"font_size":17,"enabled":true,"flex":"","name":"file name","border_style":3,"text_color":"RGBA(0.000000,0.000000,0.000000,1.000000)","alignment":"left","border_color":"RGBA(0.000000,0.000000,0.000000,1.000000)","placeholder":"Name your file","uuid":"AF4E3EED-65EE-4BE8-9D76-BE8E3EF220E0"},"frame":"{{344, 26}, {674, 36.5}}","nodes":[]},{"class":"TextField","attributes":{"font_size":17,"enabled":true,"flex":"","name":"search string","border_style":3,"text_color":"RGBA(0.000000,0.000000,0.000000,1.000000)","alignment":"center","border_color":"RGBA(0.000000,0.000000,0.000000,1.000000)","placeholder":"Search","uuid":"B90F7BF2-8D53-4ADC-A613-44758565B671"},"frame":"{{14.5, 16}, {302, 32}}","nodes":[]}]}]
+[
+  {
+    "class" : "View",
+    "attributes" : {
+      "tint_color" : "RGBA(0.000000,0.478000,1.000000,1.000000)",
+      "enabled" : true,
+      "flex" : "",
+      "name" : "Note Pad",
+      "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+      "background_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+      "custom_class" : "NotepadView"
+    },
+    "frame" : "{{0, 0}, {1024, 710}}",
+    "selected" : false,
+    "nodes" : [
+      {
+        "class" : "View",
+        "attributes" : {
+          "name" : "view1",
+          "background_color" : "RGBA(0.857143,0.857143,0.857143,1.000000)",
+          "uuid" : "C3CFEA60-D82C-4C10-9C3A-211C22F661CC",
+          "enabled" : true,
+          "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+          "flex" : ""
+        },
+        "frame" : "{{6, 73}, {320, 48}}",
+        "selected" : false,
+        "nodes" : [
+
+        ]
+      },
+      {
+        "class" : "TableView",
+        "attributes" : {
+          "background_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "border_color" : "RGBA(0.857143,0.857143,0.857143,1.000000)",
+          "data_source_number_of_lines" : 1,
+          "enabled" : true,
+          "flex" : "WH",
+          "row_height" : 40,
+          "data_source_action" : "",
+          "data_source_items" : "",
+          "data_source_delete_enabled" : false,
+          "name" : "file list",
+          "border_width" : 1,
+          "uuid" : "D6ED5C6D-E887-4112-83A6-C635241117DD",
+          "data_source_font_size" : 18
+        },
+        "frame" : "{{6, 120}, {320, 583}}",
+        "selected" : false,
+        "nodes" : [
+
+        ]
+      },
+      {
+        "class" : "TextView",
+        "attributes" : {
+          "font_size" : 17,
+          "enabled" : true,
+          "flex" : "",
+          "name" : "file content",
+          "border_color" : "RGBA(0.714286,0.714286,0.714286,1.000000)",
+          "text_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+          "alignment" : "left",
+          "editable" : true,
+          "background_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "border_width" : 1,
+          "uuid" : "024791DA-9697-48FE-8410-71ADCA41AFA6"
+        },
+        "frame" : "{{344, 120}, {674, 582}}",
+        "selected" : false,
+        "nodes" : [
+
+        ]
+      },
+      {
+        "class" : "TextField",
+        "attributes" : {
+          "font_size" : 17,
+          "enabled" : true,
+          "flex" : "",
+          "name" : "file name",
+          "border_style" : 3,
+          "text_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+          "alignment" : "left",
+          "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+          "placeholder" : "Name your file",
+          "uuid" : "AF4E3EED-65EE-4BE8-9D76-BE8E3EF220E0"
+        },
+        "frame" : "{{344, 75}, {674, 36.5}}",
+        "selected" : false,
+        "nodes" : [
+
+        ]
+      },
+      {
+        "class" : "TextField",
+        "attributes" : {
+          "font_size" : 17,
+          "enabled" : true,
+          "flex" : "",
+          "name" : "search string",
+          "border_style" : 3,
+          "text_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+          "alignment" : "center",
+          "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+          "placeholder" : "Search",
+          "uuid" : "B90F7BF2-8D53-4ADC-A613-44758565B671"
+        },
+        "frame" : "{{13.5, 80}, {302, 32}}",
+        "selected" : false,
+        "nodes" : [
+
+        ]
+      }
+    ]
+  }
+]
