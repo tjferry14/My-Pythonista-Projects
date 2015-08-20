@@ -23,10 +23,10 @@ def api(latitude, longitude):
 	forecast(weatherapi, forecastapi)
  
 def forecast(weatherapi, forecastapi):
-	v['temp'].text = str(round(weatherapi['main']['temp'], 0)) + '°'
-	v['location'].text = str(weatherapi['name'])
-	v['hightemp'].text = str(weatherapi['main']['temp_max']) + '°'
-	v['lowtemp'].text = str(round(weatherapi['main']['temp_min'], 0)) + '°'
+	v['temp'].text = '{}°'.format(round(weatherapi['main']['temp']))
+	v['location'].text = weatherapi['name']
+	v['hightemp'].text = '{}°'.format(round(weatherapi['main']['temp_max']))
+	v['lowtemp'].text = '{}°'.format(round(weatherapi['main']['temp_min']))
 	v['description'].text = weatherapi['weather'][0]['main']
 	today = datetime.datetime.now()
 	week = [(today + datetime.timedelta(days=i)).strftime('%A') for i in xrange(7)]
@@ -38,7 +38,6 @@ def forecast(weatherapi, forecastapi):
 		v['friday'].text = str(round(forecastapi['list'][week.index('Friday')]['temp']['day'],0)) + '°'
 		v['saturday'].text = str(round(forecastapi['list'][week.index('Saturday')]['temp']['day'],0)) + '°'
 		v['sunday'].text = str(round(forecastapi['list'][week.index('Sunday')]['temp']['day'],0)) + '°'
-		v['description'].text = forecastapi['list'][week.index(day)]['weather'][0]['main']
 
 place()
 v.present('sheet')
