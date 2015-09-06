@@ -7,7 +7,7 @@ My Pythonista Projects
 | myemail.py      | Sends an email using your email account. |
 | scores.py      | Generates two random scores. |
 | tweetme.py      | Allows you to tweet whatever you type into a text dialog. |
-| count_text.py      | Counts the amount of letters or numbers in text you give it. |
+| count_text.py      | Counts the amount of letters or numbers in text you ask it to. |
 | notepad.py      | Create a text, python or .pyui file and/or view other files in current directory. |
 | contact_browser.py      | Displays all your current contacts and allows you to search through them. |
 | forecast.py     | Displays local weather using UI Module. |
