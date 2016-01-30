@@ -14,4 +14,4 @@ My Pythonista Projects
 | reminders.py     | Basic reminders script using UI Module. |
 | backup.py | Backs up your script library and uploads it to Dropbox. |
 | lorem.py | Generate Lorem Ipsum (Copied from Editorial script with minor changes.)|
-| triangle-solver.py | Completes triangle side math problems for you. |
+| triangle_solver.py | Completes triangle side math problems for you. |
