@@ -1,19 +1,22 @@
+#/usr/bin/env python
 # coding: utf-8
 
-from math import * 
+from math import sqrt
 
 try:
-	hypo = raw_input('Do you know your hypotenuse? ')
+    raw_input          # Python2
+except NameError:
+    raw_input = input  # Python3
 
-	if hypo == 'yes':
-		c = input('Enter your hypotenuse')
-		q = input('Enter your other side')
-		print (sqrt( (c*c) - (q*q) ))
-
-	else:
-		a = input('Enter your first number') 
-		b = input('Enter your second number')
-		print (sqrt( (a * a) + (b * b) ))
-	
+try:
+    hypo = raw_input('Do you know your hypotenuse? ').strip().lower()
+    if hypo == 'yes':
+        c = float(raw_input('Enter your hypotenuse: ').strip())
+        q = float(raw_input('Enter your other side: ').strip())
+        print (sqrt((c * c) - (q * q)))
+    else:
+        a = input('Enter your first number')
+        b = input('Enter your second number')
+        print (sqrt((a * a) + (b * b)))
 except ValueError:
-	print "Math domain error"
+    print("Math domain error")
