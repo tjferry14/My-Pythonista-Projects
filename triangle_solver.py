@@ -15,8 +15,8 @@ try:
         q = float(raw_input('Enter your other side: ').strip())
         print (sqrt((c * c) - (q * q)))
     else:
-        a = input('Enter your first number')
-        b = input('Enter your second number')
+        a = int(input('Enter your first number '))
+        b = int(input('Enter your second number '))
         print (sqrt((a * a) + (b * b)))
 except ValueError:
     print("Math domain error")
